@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.ProntuarioRequestDTO;
 import com.api.hospital.dto.ProntuarioResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Prontuario;
 import com.api.hospital.repository.ProntuarioRepository;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class ProntuarioService {
 
     public ProntuarioResponseDTO prontuarioPorId(Long id){
         Prontuario prontuario = this.prontuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prontuario não encontrado."));
+                .orElseThrow(() -> new RegraNegocioException("Prontuario não encontrado."));
         return toDTO(prontuario);
     }
 
@@ -55,7 +56,7 @@ public class ProntuarioService {
 
     public ProntuarioResponseDTO atualizarProntuario(Long id, ProntuarioRequestDTO prontuarioRequestDTO){
         Prontuario prontuario = prontuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prontuario não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe prontuario com esse id."));
         prontuario.setTipoSanguineo(prontuarioRequestDTO.getTipoSanguineo());
         prontuario.setAlergia(prontuarioRequestDTO.getAlergia());
         prontuario.setObservacoes(prontuarioRequestDTO.getObservações());
@@ -65,7 +66,7 @@ public class ProntuarioService {
 
     public String excluirProntuario(Long id){
         Prontuario prontuario = this.prontuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prontuario não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Prontuario não encontrado"));
         this.prontuarioRepository.delete((prontuario));
         return "Excluido com sucesso";
     }

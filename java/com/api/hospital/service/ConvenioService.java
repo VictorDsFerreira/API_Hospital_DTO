@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.ConvenioRequestDTO;
 import com.api.hospital.dto.ConvenioResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Convenio;
 import com.api.hospital.repository.ConvenioRepository;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class ConvenioService {
 
     public ConvenioResponseDTO convenioPorId(Long id){
         Convenio convenio = this.convenioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Convenio não encontrado."));
+                .orElseThrow(() -> new RegraNegocioException("Convenio não encontrado."));
         return toDTO(convenio);
     }
 
@@ -52,7 +53,7 @@ public class ConvenioService {
 
     public ConvenioResponseDTO atualizarConvenio(Long id, ConvenioRequestDTO convenioRequestDTO){
         Convenio convenio = convenioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Convenio não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe convenio com esse id."));
         convenio.setNome(convenioRequestDTO.getNome());
         convenio.setCnpj(convenioRequestDTO.getCnpj());
         Convenio atualizado = convenioRepository.save(convenio);
@@ -61,7 +62,7 @@ public class ConvenioService {
 
     public String excluirConvenio(Long id){
         Convenio convenio = this.convenioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Convenio não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Convenio não encontrado"));
         this.convenioRepository.delete((convenio));
         return "Excluido com sucesso";
     }

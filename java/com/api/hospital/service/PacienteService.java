@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.PacienteRequestDTO;
 import com.api.hospital.dto.PacienteResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Paciente;
 import com.api.hospital.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class PacienteService {
 
     public PacienteResponseDTO pacientePorId(Long id){
         Paciente paciente = this.pacienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado."));
+                .orElseThrow(() -> new RegraNegocioException("Paciente não encontrado."));
         return toDTO(paciente);
     }
 
@@ -54,7 +55,7 @@ public class PacienteService {
 
     public PacienteResponseDTO atualizarPaciente(Long id, PacienteRequestDTO pacienteRequestDTO){
         Paciente paciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe paciente com esse id."));
         paciente.setNome(pacienteRequestDTO.getNome());
         paciente.setCpf(pacienteRequestDTO.getCpf());
         paciente.setTelefone(pacienteRequestDTO.getTelefone());
@@ -64,7 +65,7 @@ public class PacienteService {
 
     public String excluirPaciente(Long id){
         Paciente paciente = this.pacienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Paciente não encontrado"));
         this.pacienteRepository.delete((paciente));
         return "Excluido com sucesso";
     }

@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.MedicoRequestDTO;
 import com.api.hospital.dto.MedicoResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Medico;
 import com.api.hospital.repository.ConsultaRepository;
 import com.api.hospital.repository.MedicoRepository;
@@ -43,7 +44,7 @@ public class MedicoService {
 
     public MedicoResponseDTO medicoPorId(Long id){
         Medico medico = this.medicoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Medico não encontrado."));
+                .orElseThrow(() -> new RegraNegocioException("Medico não encontrado."));
         return toDTO(medico);
     }
 
@@ -55,7 +56,7 @@ public class MedicoService {
 
     public MedicoResponseDTO atualizarMedico(Long id, MedicoRequestDTO medicoRequestDTO){
         Medico medico = medicoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Medico não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe médico com esse id."));
         medico.setNome(medicoRequestDTO.getNome());
         medico.setEspecialidade(medicoRequestDTO.getEspecialidade());
         medico.setCrm(medicoRequestDTO.getCrm());
@@ -65,7 +66,7 @@ public class MedicoService {
 
     public String excluirMedico(Long id){
         Medico medico = this.medicoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Medico não encontrado"));
+                .orElseThrow(() -> new RegraNegocioException("Medico não encontrado"));
         this.medicoRepository.delete((medico));
         return "Excluido com sucesso";
     }
