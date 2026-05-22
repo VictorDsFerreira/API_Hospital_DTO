@@ -7,13 +7,14 @@ import com.api.hospital.model.Receita;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 @Builder
 public class ConsultaResponseDTO {
     private Long id;
-    private Date dataHora;
+    private LocalDateTime dataHora;
     private String motivo;
     private double valor;
     private Paciente paciente;
