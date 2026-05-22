@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.ConsultaRequestDTO;
 import com.api.hospital.dto.ConsultaResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Consulta;
 import com.api.hospital.repository.*;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class ConsultaService {
 
     public ConsultaResponseDTO consultaPorId(Long id){
         Consulta consulta = this.consultaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada."));
+                .orElseThrow(() -> new RegraNegocioException("Consulta não encontrada."));
         return toDTO(consulta);
     }
 
@@ -63,7 +64,7 @@ public class ConsultaService {
 
     public ConsultaResponseDTO atualizarConsulta(Long id, ConsultaRequestDTO consultaRequestDTO){
         Consulta consulta = consultaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe consulta com esse id."));
         consulta.setDataHora(consultaRequestDTO.getDataHora());
         consulta.setMotivo(consultaRequestDTO.getMotivo());
         consulta.setValor(consultaRequestDTO.getValor());
@@ -77,7 +78,7 @@ public class ConsultaService {
 
     public String excluirConsulta(Long id){
         Consulta consulta = this.consultaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Consulta não encontrada"));
         this.consultaRepository.delete((consulta));
         return "Excluida com sucesso";
     }

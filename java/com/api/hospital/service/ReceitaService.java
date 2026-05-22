@@ -2,6 +2,7 @@ package com.api.hospital.service;
 
 import com.api.hospital.dto.ReceitaRequestDTO;
 import com.api.hospital.dto.ReceitaResponseDTO;
+import com.api.hospital.dto.RegraNegocioException;
 import com.api.hospital.model.Receita;
 import com.api.hospital.repository.ReceitaRepository;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class ReceitaService {
 
     public ReceitaResponseDTO receitaPorId(Long id){
         Receita receita = this.receitaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receita não encontrada."));
+                .orElseThrow(() -> new RegraNegocioException("Receita não encontrada."));
         return toDTO(receita);
     }
 
@@ -55,7 +56,7 @@ public class ReceitaService {
 
     public ReceitaResponseDTO atualizarReceita(Long id, ReceitaRequestDTO receitaRequestDTO){
         Receita receita = receitaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Não existe receita com esse ID"));
         receita.setMedicamento(receitaRequestDTO.getMedicamento());
         receita.setDosagem(receitaRequestDTO.getDosagem());
         receita.setDuracaoDias(receitaRequestDTO.getDuracaoDias());
@@ -65,7 +66,7 @@ public class ReceitaService {
 
     public String excluirReceita(Long id){
         Receita receita = this.receitaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+                .orElseThrow(() -> new RegraNegocioException("Receita não encontrada"));
         this.receitaRepository.delete((receita));
         return "Excluida com sucesso";
     }
