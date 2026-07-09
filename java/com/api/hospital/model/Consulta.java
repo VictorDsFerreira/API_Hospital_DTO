@@ -2,14 +2,14 @@ package com.api.hospital.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Consulta {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    private Date dataHora;
+    private LocalDateTime dataHora;
     private String motivo;
     private double valor;
     @ManyToOne
@@ -29,11 +29,11 @@ public class Consulta {
         this.id = id;
     }
 
-    public Date getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(Date dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 

@@ -1,4 +1,4 @@
-package com.api.hospital.configs;
+package com.api.hospital.config;
 
 import com.api.hospital.dto.ApiErrorDTO;
 import com.api.hospital.dto.RegraNegocioException;
